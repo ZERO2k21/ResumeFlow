@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { ChangeEvent, FormEvent } from 'react';
@@ -21,9 +22,13 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
         ...resumeData,
         personalInfo: { ...resumeData.personalInfo, [field]: value },
       });
-    } else {
-      onUpdate({ ...resumeData, [section]: value });
+    } else if (section === 'summary') {
+       onUpdate({ ...resumeData, summary: value });
     }
+    // For other top-level string properties if any in future
+    // else {
+    //   onUpdate({ ...resumeData, [section]: value });
+    // }
   };
 
   const handleArrayChange = <T extends WorkExperience | EducationEntry>(
@@ -33,7 +38,9 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
     value: string
   ) => {
     const updatedArray = [...resumeData[section]];
-    updatedArray[index] = { ...updatedArray[index], [field]: value } as T;
+    // Create a new object for the item to ensure re-render
+    const newItem = { ...updatedArray[index], [field]: value } as T;
+    updatedArray[index] = newItem;
     onUpdate({ ...resumeData, [section]: updatedArray });
   };
   
@@ -73,6 +80,10 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
             <Label htmlFor="name">Full Name</Label>
             <Input id="name" value={resumeData.personalInfo.name} onChange={(e) => handleInputChange('personalInfo', 'name', e.target.value)} />
           </div>
+           <div>
+            <Label htmlFor="jobTitle">Job Title / Role</Label>
+            <Input id="jobTitle" value={resumeData.personalInfo.jobTitle || ''} onChange={(e) => handleInputChange('personalInfo', 'jobTitle', e.target.value)} />
+          </div>
           <div>
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" value={resumeData.personalInfo.email} onChange={(e) => handleInputChange('personalInfo', 'email', e.target.value)} />
@@ -100,14 +111,14 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
         <Textarea 
           placeholder="Write a brief summary or career objective..." 
           value={resumeData.summary}
-          onChange={(e) => onUpdate({...resumeData, summary: e.target.value})}
-          rows={5}
+          onChange={(e) => handleInputChange('summary', 'summary', e.target.value)}
+          rows={8}
         />
       </SectionCard>
 
       <SectionCard title="Work Experience" icon={<Briefcase className="h-5 w-5" />}>
         {resumeData.experience.map((exp, index) => (
-          <div key={exp.id} className="space-y-3 p-4 border rounded-md mb-4 relative">
+          <div key={exp.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-card">
             <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive hover:text-destructive" onClick={() => removeFromArray('experience', index)}>
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -118,7 +129,7 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
               <div><Label>Start Date</Label><Input type="text" placeholder="MM/YYYY" value={exp.startDate} onChange={(e) => handleArrayChange('experience', index, 'startDate', e.target.value)} /></div>
               <div><Label>End Date</Label><Input type="text" placeholder="MM/YYYY or Present" value={exp.endDate} onChange={(e) => handleArrayChange('experience', index, 'endDate', e.target.value)} /></div>
             </div>
-            <div><Label>Responsibilities / Achievements</Label><Textarea rows={4} value={exp.responsibilities} onChange={(e) => handleArrayChange('experience', index, 'responsibilities', e.target.value)} /></div>
+            <div><Label>Responsibilities / Achievements (one per line)</Label><Textarea rows={6} value={exp.responsibilities} onChange={(e) => handleArrayChange('experience', index, 'responsibilities', e.target.value)} placeholder="Developed new feature X, resulting in Y% engagement increase..." /></div>
           </div>
         ))}
         <Button variant="outline" onClick={() => addToArray('experience')} className="mt-2 w-full">
@@ -128,7 +139,7 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
 
       <SectionCard title="Education" icon={<GraduationCap className="h-5 w-5" />}>
         {resumeData.education.map((edu, index) => (
-          <div key={edu.id} className="space-y-3 p-4 border rounded-md mb-4 relative">
+          <div key={edu.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-card">
             <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive hover:text-destructive" onClick={() => removeFromArray('education', index)}>
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -136,7 +147,7 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
             <div><Label>Institution</Label><Input value={edu.institution} onChange={(e) => handleArrayChange('education', index, 'institution', e.target.value)} /></div>
             <div><Label>Location</Label><Input value={edu.location} onChange={(e) => handleArrayChange('education', index, 'location', e.target.value)} /></div>
             <div><Label>Graduation Date</Label><Input type="text" placeholder="MM/YYYY or Expected" value={edu.graduationDate} onChange={(e) => handleArrayChange('education', index, 'graduationDate', e.target.value)} /></div>
-            <div><Label>Details (Optional)</Label><Textarea rows={2} value={edu.details || ''} onChange={(e) => handleArrayChange('education', index, 'details', e.target.value)} /></div>
+            <div><Label>Details (e.g., GPA, Honors, Relevant Coursework - one per line)</Label><Textarea rows={3} value={edu.details || ''} onChange={(e) => handleArrayChange('education', index, 'details', e.target.value)} placeholder="Graduated with Honors (GPA: 3.8/4.0)..." /></div>
           </div>
         ))}
         <Button variant="outline" onClick={() => addToArray('education')} className="mt-2 w-full">

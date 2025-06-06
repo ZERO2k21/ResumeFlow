@@ -14,15 +14,14 @@ export default function AvantGardeImpactTemplate({ resumeData }: ResumeTemplateP
 
   return (
     <div className="p-8 bg-neutral-900 text-neutral-100 font-['Space_Grotesk',_sans-serif] min-h-[800px] shadow-2xl rounded-lg border-2 border-purple-500 relative overflow-hidden">
-      {/* Decorative elements */}
       <div className="absolute -top-10 -left-10 w-48 h-48 bg-pink-500/30 rounded-full filter blur-2xl opacity-70 animate-pulse"></div>
       <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-blue-500/30 rounded-full filter blur-2xl opacity-70 animate-pulse animation-delay-2000"></div>
 
       <div className="relative z-10">
-        {/* Header Section */}
         {hasPersonalInfo && (
           <header className="mb-10 text-center relative">
             {personalInfo.name && <h1 className="text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-500 mb-2 uppercase">{personalInfo.name}</h1>}
+            {personalInfo.jobTitle && <p className="text-2xl font-medium text-indigo-300 mb-4 tracking-wide">{personalInfo.jobTitle}</p>}
             <div className="flex justify-center items-center space-x-6 text-sm text-neutral-400">
               {personalInfo.email && (
                 <a href={`mailto:${personalInfo.email}`} className="flex items-center hover:text-pink-400 transition-colors">
@@ -55,17 +54,14 @@ export default function AvantGardeImpactTemplate({ resumeData }: ResumeTemplateP
           </header>
         )}
 
-        {/* Summary Section */}
         {summary && (
           <section className="mb-10 p-6 bg-neutral-800/50 border border-neutral-700 rounded-lg shadow-lg">
             <h2 className="text-2xl font-semibold text-purple-400 mb-3 flex items-center"><Star size={20} className="mr-2"/> Objective</h2>
-            <p className="text-neutral-300 leading-relaxed text-justify">{summary}</p>
+            <p className="text-neutral-300 leading-relaxed text-justify whitespace-pre-line">{summary}</p>
           </section>
         )}
 
-        {/* Main Content Area - Grid Layout */}
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Left Column for Experience (if it exists) or span wider */}
           {hasExperience && (
             <section className={`md:col-span-2 p-6 bg-neutral-800/50 border border-neutral-700 rounded-lg shadow-lg ${!hasEducation && !hasSkills ? 'md:col-span-3' : ''}`}>
               <h2 className="text-2xl font-semibold text-pink-400 mb-4 flex items-center"><Briefcase size={20} className="mr-2" /> Experience</h2>
@@ -76,7 +72,7 @@ export default function AvantGardeImpactTemplate({ resumeData }: ResumeTemplateP
                   <p className="text-md text-neutral-300 italic">{exp.company} - {exp.location}</p>
                   <p className="text-xs text-neutral-500 mb-2">{exp.startDate} - {exp.endDate}</p>
                   {exp.responsibilities && (
-                    <ul className="list-none space-y-1 text-sm text-neutral-400 leading-snug">
+                    <ul className="list-none space-y-1 text-sm text-neutral-400 leading-snug whitespace-pre-line">
                       {exp.responsibilities.split('\n').map((line, i) => line.trim() && <li key={i} className="before:content-['»_'] before:mr-1 before:text-pink-400">{line.trim()}</li>)}
                     </ul>
                   )}
@@ -85,7 +81,6 @@ export default function AvantGardeImpactTemplate({ resumeData }: ResumeTemplateP
             </section>
           )}
 
-          {/* Right Column for Education and Skills */}
           {(hasEducation || hasSkills) && (
             <div className={`space-y-8 ${!hasExperience ? 'md:col-span-3' : 'md:col-span-1'}`}>
               {hasEducation && (
@@ -96,7 +91,7 @@ export default function AvantGardeImpactTemplate({ resumeData }: ResumeTemplateP
                       <h3 className="text-lg font-medium text-neutral-100">{edu.degree}</h3>
                       <p className="text-md text-neutral-300 italic">{edu.institution} - {edu.location}</p>
                       <p className="text-xs text-neutral-500 mb-1">{edu.graduationDate}</p>
-                      {edu.details && <p className="text-xs text-neutral-400">{edu.details}</p>}
+                      {edu.details && <p className="text-xs text-neutral-400 whitespace-pre-line">{edu.details}</p>}
                     </div>
                   ))}
                 </section>

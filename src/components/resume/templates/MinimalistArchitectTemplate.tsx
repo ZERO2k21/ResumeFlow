@@ -1,10 +1,9 @@
 
 'use client';
 
-import type { ResumeTemplateProps } from '@/types/resume'; // Use the shared props type
+import type { ResumeTemplateProps } from '@/types/resume'; 
 import { Mail, Phone, Linkedin, Globe, MapPin } from 'lucide-react';
 
-// Component signature matches React.FC<ResumeTemplateProps>
 export default function MinimalistArchitectTemplate({ resumeData }: ResumeTemplateProps): JSX.Element {
   const { personalInfo, summary, experience, education, skills } = resumeData;
 
@@ -19,6 +18,7 @@ export default function MinimalistArchitectTemplate({ resumeData }: ResumeTempla
       {hasPersonalInfo && (
         <header className="mb-8 text-center border-b border-gray-300 pb-6">
           {personalInfo.name && <h1 className="text-4xl font-bold text-primary mb-1">{personalInfo.name}</h1>}
+          {personalInfo.jobTitle && <p className="text-lg text-gray-600 mb-2">{personalInfo.jobTitle}</p>}
           <div className="flex justify-center items-center space-x-4 text-xs text-gray-600">
             {personalInfo.email && (
               <a href={`mailto:${personalInfo.email}`} className="flex items-center hover:text-primary">
@@ -60,7 +60,7 @@ export default function MinimalistArchitectTemplate({ resumeData }: ResumeTempla
           {summary && (
             <section className="mb-8">
               <h2 className="text-xl font-semibold text-primary border-b-2 border-primary pb-1.5 mb-3">Summary</h2>
-              <p className="text-gray-700 leading-relaxed">{summary}</p>
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">{summary}</p>
             </section>
           )}
 
@@ -76,7 +76,7 @@ export default function MinimalistArchitectTemplate({ resumeData }: ResumeTempla
                   </div>
                   <p className="text-xs text-gray-500 mb-1.5">{exp.location}</p>
                   {exp.responsibilities && (
-                    <ul className="list-disc list-outside pl-5 text-gray-700 space-y-1 mt-1 leading-relaxed">
+                    <ul className="list-disc list-outside pl-5 text-gray-700 space-y-1 mt-1 leading-relaxed whitespace-pre-line">
                       {exp.responsibilities.split('\n').map((line, i) => line.trim() && <li key={i}>{line.trim()}</li>)}
                     </ul>
                   )}
@@ -97,7 +97,7 @@ export default function MinimalistArchitectTemplate({ resumeData }: ResumeTempla
                   <p className="font-medium text-gray-700">{edu.institution}</p>
                   <p className="text-xs text-gray-500">{edu.location}</p>
                   <p className="text-xs text-gray-500 mb-1">{edu.graduationDate}</p>
-                  {edu.details && <p className="text-xs text-gray-600 italic leading-snug">{edu.details}</p>}
+                  {edu.details && <p className="text-xs text-gray-600 italic leading-snug whitespace-pre-line">{edu.details}</p>}
                 </div>
               ))}
             </section>
@@ -118,7 +118,7 @@ export default function MinimalistArchitectTemplate({ resumeData }: ResumeTempla
         </div>
       </div>
        {!hasPersonalInfo && !summary && !hasExperience && !hasEducation && !hasSkills && (
-        <p className="text-center text-gray-500 col-span-3">Start filling out the form to see your resume take shape here with the Minimalist Architect template!</p>
+        <p className="text-center text-gray-500 col-span-3 py-10">Start filling out the form to see your resume take shape here with the Minimalist Architect template!</p>
       )}
     </div>
   );

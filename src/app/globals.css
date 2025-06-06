@@ -86,3 +86,68 @@ body {
     @apply bg-background text-foreground min-h-screen flex flex-col;
   }
 }
+
+@media print {
+  body {
+    background-color: white !important; /* Ensure white background for print */
+    -webkit-print-color-adjust: exact; /* Ensure colors and backgrounds are printed in Chrome/Safari */
+    print-color-adjust: exact; /* Standard */
+  }
+
+  /* Hide elements not meant for printing */
+  header, /* Main app header */
+  nav,   /* If any nav elements exist */
+  .no-print, /* Generic class to hide elements */
+  [data-radix-toast-provider-id], /* Toasts */
+  #resume-form-column,
+  #resume-sidebar-column {
+    display: none !important;
+  }
+
+  /* Ensure the resume preview container takes full width and is visible */
+  main.container,
+  main.container > div.grid { /* The grid container in page.tsx */
+    display: block !important; /* Override grid display */
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  
+  #resume-preview-column {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  /* Make the resume preview itself fill the page */
+  #resume-preview-column > div > div { /* Targeting SectionCard > CardContent within ResumePreview */
+    box-shadow: none !important;
+    border: none !important;
+    min-height: auto !important;
+    height: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important; /* Adjust as needed for template content */
+    margin: 0 !important;
+  }
+  
+  /* Ensure template content scales well */
+  #resume-preview-column .prose { /* If generic preview is somehow active */
+    max-width: none !important;
+  }
+
+  /* Remove scrollbars from preview if any for print */
+  #resume-preview-column, 
+  #resume-preview-column * {
+    overflow: visible !important;
+  }
+
+  @page {
+    size: A4 portrait; /* Standard A4 size */
+    margin: 20mm; /* Standard print margins, adjust as needed */
+  }
+}

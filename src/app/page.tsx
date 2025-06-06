@@ -10,7 +10,7 @@ import TemplateSelector from '@/components/resume/TemplateSelector';
 import ResumePreview from '@/components/resume/ResumePreview';
 import AISuggestionsPanel from '@/components/resume/AISuggestionsPanel';
 import DownloadSection from '@/components/resume/DownloadSection';
-import { Loader2 } from 'lucide-react'; // Import a loader icon
+import { Loader2 } from 'lucide-react';
 
 export default function ResumeFlowPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
@@ -32,7 +32,7 @@ export default function ResumeFlowPage() {
     if (savedTemplate && sampleTemplates.find(t => t.id === savedTemplate)) {
       setSelectedTemplateId(savedTemplate);
     } else if (sampleTemplates.length > 0) {
-      setSelectedTemplateId(sampleTemplates[0].id); // Default to first template if saved one is invalid or not found
+      setSelectedTemplateId(sampleTemplates[0].id);
     }
   }, []);
 
@@ -65,7 +65,7 @@ export default function ResumeFlowPage() {
             <Header />
             <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
                 <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-                <p className="text-lg text-muted-foreground">Loading ResumeFlow...</p>
+                <p className="text-lg text-muted-foreground">Loading ResumeFlow Editor...</p>
             </main>
         </div>
     );
@@ -76,11 +76,11 @@ export default function ResumeFlowPage() {
       <Header />
       <main className="flex-grow container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-4 space-y-6">
+          <div id="resume-form-column" className="lg:col-span-4 space-y-6">
             <ResumeForm resumeData={resumeData} onUpdate={handleUpdateResumeData} />
           </div>
 
-          <div className="lg:col-span-5 space-y-6">
+          <div id="resume-preview-column" className="lg:col-span-5 space-y-6">
             <div className="lg:sticky lg:top-6">
               <Suspense fallback={<div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /> <p className="mt-2">Loading Preview...</p></div>}>
                 <ResumePreview resumeData={resumeData} selectedTemplate={selectedTemplate} />
@@ -88,7 +88,7 @@ export default function ResumeFlowPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-3 space-y-6">
+          <div id="resume-sidebar-column" className="lg:col-span-3 space-y-6">
             <div className="lg:sticky lg:top-6 space-y-6">
               <TemplateSelector
                 templates={sampleTemplates}
