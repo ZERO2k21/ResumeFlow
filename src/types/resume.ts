@@ -1,3 +1,4 @@
+
 export interface PersonalInfo {
   name: string;
   email: string;
@@ -51,8 +52,9 @@ export const initialResumeData: ResumeData = {
 };
 
 export const sampleTemplates: Template[] = [
-  { id: 'classic', name: 'Classic Professional', description: 'A timeless, clean format.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume professional' },
-  { id: 'modern', name: 'Modern Minimalist', description: 'Sleek and contemporary design.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume modern' },
-  { id: 'creative', name: 'Creative Bold', description: 'For roles needing a visual statement.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume creative' },
-  { id: 'academic', name: 'Academic CV', description: 'Detailed for research and academia.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume academic' },
+  { id: 'avant-garde', name: 'Avant-Garde Impact', description: 'Bold typography, unconventional layout. For creatives.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume artistic' },
+  { id: 'tech-savvy', name: 'Tech Innovator', description: 'Clean lines, modern icons. Ideal for tech roles.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume tech' },
+  { id: 'elegant-script', name: 'Elegant Storyteller', description: 'Sophisticated fonts, spacious design. For writers or marketers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume elegant' },
+  { id: 'dynamic-grid', name: 'Dynamic Grid', description: 'Structured yet visually engaging. Suits project managers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume structured' },
+  { id: 'vibrant-ui', name: 'Vibrant UI/UX', description: 'Color accents, portfolio focus. Perfect for designers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume design' },
 ];
