@@ -10,6 +10,7 @@ import TemplateSelector from '@/components/resume/TemplateSelector';
 import ResumePreview from '@/components/resume/ResumePreview';
 import AISuggestionsPanel from '@/components/resume/AISuggestionsPanel';
 import DownloadSection from '@/components/resume/DownloadSection';
+import { Loader2 } from 'lucide-react'; // Import a loader icon
 
 export default function ResumeFlowPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
@@ -24,7 +25,7 @@ export default function ResumeFlowPage() {
         setResumeData(JSON.parse(savedData));
       } catch (e) {
         console.error("Failed to parse saved resume data", e);
-        localStorage.removeItem('resumeFlowData'); 
+        localStorage.removeItem('resumeFlowData');
       }
     }
     const savedTemplate = localStorage.getItem('resumeFlowTemplate');
@@ -36,7 +37,7 @@ export default function ResumeFlowPage() {
   }, []);
 
   useEffect(() => {
-    if(isClient) { 
+    if(isClient) {
       localStorage.setItem('resumeFlowData', JSON.stringify(resumeData));
     }
   }, [resumeData, isClient]);
@@ -60,10 +61,11 @@ export default function ResumeFlowPage() {
 
   if (!isClient) {
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen bg-background">
             <Header />
-            <main className="flex-grow container mx-auto p-4 grid place-items-center">
-                <p>Loading ResumeFlow...</p>
+            <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
+                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+                <p className="text-lg text-muted-foreground">Loading ResumeFlow...</p>
             </main>
         </div>
     );
@@ -80,7 +82,7 @@ export default function ResumeFlowPage() {
 
           <div className="lg:col-span-5 space-y-6">
             <div className="lg:sticky lg:top-6">
-              <Suspense fallback={<div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center"><p>Loading Preview...</p></div>}>
+              <Suspense fallback={<div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /> <p className="mt-2">Loading Preview...</p></div>}>
                 <ResumePreview resumeData={resumeData} selectedTemplate={selectedTemplate} />
               </Suspense>
             </div>
@@ -88,10 +90,10 @@ export default function ResumeFlowPage() {
 
           <div className="lg:col-span-3 space-y-6">
             <div className="lg:sticky lg:top-6 space-y-6">
-              <TemplateSelector 
-                templates={sampleTemplates} 
-                selectedTemplateId={selectedTemplateId} 
-                onSelectTemplate={handleSelectTemplate} 
+              <TemplateSelector
+                templates={sampleTemplates}
+                selectedTemplateId={selectedTemplateId}
+                onSelectTemplate={handleSelectTemplate}
               />
               <AISuggestionsPanel resumeData={resumeData} />
               <DownloadSection resumeData={resumeData} />
