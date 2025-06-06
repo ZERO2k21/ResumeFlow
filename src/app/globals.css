@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,14 +34,14 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 0 0% 98%; /* Light gray for sidebar */
+    --sidebar-foreground: 240 5.3% 26.1%; /* Dark text for sidebar */
+    --sidebar-primary: 180 100% 25.1%; /* Teal for primary elements in sidebar */
+    --sidebar-primary-foreground: 0 0% 98%; /* White text on primary */
+    --sidebar-accent: 180 60% 90%; /* Lighter teal for accents in sidebar */
+    --sidebar-accent-foreground: 180 100% 20.1%; /* Darker teal text on accent */
+    --sidebar-border: 180 20% 85%; /* Soft teal border for sidebar */
+    --sidebar-ring: 180 100% 30.1%; /* Teal ring for focus in sidebar */
   }
   .dark {
     --background: 200 10% 10%; 
@@ -67,14 +68,14 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 240 5.9% 10%; /* Dark background for sidebar */
+    --sidebar-foreground: 0 0% 98%; /* Light text for sidebar */
+    --sidebar-primary: 180 100% 35.1%; /* Teal for primary elements in dark sidebar */
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 180 50% 25%; /* Darker teal accent for dark sidebar */
+    --sidebar-accent-foreground: 180 10% 90%;
+    --sidebar-border: 240 3.7% 15.9%; /* Darker border for dark sidebar */
+    --sidebar-ring: 180 100% 40.1%;
   }
 }
 
@@ -83,7 +84,8 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground min-h-screen flex flex-col;
+    @apply bg-background text-foreground flex flex-col;
+     min-height: 100vh; /* Ensure body takes full viewport height */
   }
 }
 
@@ -92,62 +94,50 @@ body {
     background-color: white !important; /* Ensure white background for print */
     -webkit-print-color-adjust: exact; /* Ensure colors and backgrounds are printed in Chrome/Safari */
     print-color-adjust: exact; /* Standard */
+    min-height: auto !important;
   }
 
   /* Hide elements not meant for printing */
   header, /* Main app header */
-  nav,   /* If any nav elements exist */
+  [data-sidebar="sidebar"], /* The retractable sidebar */
   .no-print, /* Generic class to hide elements */
-  [data-radix-toast-provider-id], /* Toasts */
-  #resume-form-column,
-  #resume-sidebar-column {
+  [data-radix-toast-provider-id] /* Toasts */
+   {
     display: none !important;
   }
 
-  /* Ensure the resume preview container takes full width and is visible */
-  main.container,
-  main.container > div.grid { /* The grid container in page.tsx */
-    display: block !important; /* Override grid display */
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-  
-  #resume-preview-column {
+  /* Ensure the main content area (SidebarInset > main) and preview take full width */
+  /* SidebarInset is <main> in the ui/sidebar component, or a div if props are passed */
+  main#resume-main-content, /* Target the main content area for the resume */
+  #resume-preview-printable-area /* The direct wrapper of ResumePreview */
+  {
     display: block !important;
     width: 100% !important;
-    margin: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
     padding: 0 !important;
-    position: absolute;
-    left: 0;
-    top: 0;
+    margin: 0 !important;
+    position: static !important; /* Reset any sticky/fixed positioning */
   }
-
-  /* Make the resume preview itself fill the page */
-  #resume-preview-column > div > div { /* Targeting SectionCard > CardContent within ResumePreview */
+  
+  /* Ensure the ResumePreview's direct content area (SectionCard > CardContent) also behaves */
+  #resume-preview-printable-area > div > div { /* Targeting SectionCard > CardContent within ResumePreview */
     box-shadow: none !important;
     border: none !important;
     min-height: auto !important;
     height: auto !important;
     width: 100% !important;
     max-width: 100% !important;
-    padding: 0 !important; /* Adjust as needed for template content */
+    padding: 0 !important; /* Template content should define its own internal padding for print */
     margin: 0 !important;
   }
   
-  /* Ensure template content scales well */
-  #resume-preview-column .prose { /* If generic preview is somehow active */
+  #resume-preview-printable-area .prose {
     max-width: none !important;
   }
 
-  /* Remove scrollbars from preview if any for print */
-  #resume-preview-column, 
-  #resume-preview-column * {
-    overflow: visible !important;
-  }
-
   @page {
-    size: A4 portrait; /* Standard A4 size */
+    size: A4 portrait;
     margin: 20mm; /* Standard print margins, adjust as needed */
   }
 }

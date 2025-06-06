@@ -11,6 +11,13 @@ import ResumePreview from '@/components/resume/ResumePreview';
 import AISuggestionsPanel from '@/components/resume/AISuggestionsPanel';
 import DownloadSection from '@/components/resume/DownloadSection';
 import { Loader2 } from 'lucide-react';
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarInset,
+} from '@/components/ui/sidebar';
 
 export default function ResumeFlowPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
@@ -62,45 +69,50 @@ export default function ResumeFlowPage() {
   if (!isClient) {
     return (
         <div className="flex flex-col min-h-screen bg-background">
-            <Header />
-            <main className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
+            {/* Header might not be needed here or simplified for initial load */}
+            <div className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
                 <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
                 <p className="text-lg text-muted-foreground">Loading ResumeFlow Editor...</p>
-            </main>
+            </div>
         </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <Header />
-      <main className="flex-grow container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div id="resume-form-column" className="lg:col-span-4 space-y-6">
+    <SidebarProvider defaultOpen={true}>
+      <div className="flex h-screen bg-background">
+        <Sidebar className="border-r w-96 lg:w-[26rem] xl:w-[28rem]" collapsible="icon">
+          <SidebarHeader className="p-4 border-b">
+            <h2 className="text-xl font-semibold font-headline text-primary">Controls</h2>
+          </SidebarHeader>
+          <SidebarContent className="p-4 space-y-6">
             <ResumeForm resumeData={resumeData} onUpdate={handleUpdateResumeData} />
-          </div>
+            <TemplateSelector
+              templates={sampleTemplates}
+              selectedTemplateId={selectedTemplateId}
+              onSelectTemplate={handleSelectTemplate}
+            />
+            <AISuggestionsPanel resumeData={resumeData} />
+            <DownloadSection resumeData={resumeData} />
+          </SidebarContent>
+        </Sidebar>
 
-          <div id="resume-preview-column" className="lg:col-span-5 space-y-6">
-            <div className="lg:sticky lg:top-6">
-              <Suspense fallback={<div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center"><Loader2 className="h-8 w-8 animate-spin text-primary" /> <p className="mt-2">Loading Preview...</p></div>}>
+        <SidebarInset>
+          <Header />
+          <main className="flex-grow p-6 overflow-auto" id="resume-main-content">
+            <div id="resume-preview-printable-area" className="max-w-4xl mx-auto">
+              <Suspense fallback={
+                <div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center">
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" /> 
+                  <p className="mt-2 text-muted-foreground">Loading Preview...</p>
+                </div>
+              }>
                 <ResumePreview resumeData={resumeData} selectedTemplate={selectedTemplate} />
               </Suspense>
             </div>
-          </div>
-
-          <div id="resume-sidebar-column" className="lg:col-span-3 space-y-6">
-            <div className="lg:sticky lg:top-6 space-y-6">
-              <TemplateSelector
-                templates={sampleTemplates}
-                selectedTemplateId={selectedTemplateId}
-                onSelectTemplate={handleSelectTemplate}
-              />
-              <AISuggestionsPanel resumeData={resumeData} />
-              <DownloadSection resumeData={resumeData} />
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   );
 }
