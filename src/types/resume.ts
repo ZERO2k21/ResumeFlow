@@ -8,6 +8,7 @@ export interface PersonalInfo {
   address: string;
   linkedin?: string;
   portfolio?: string;
+  jobTitle?: string; // Added to personalInfo for some templates
 }
 
 export interface WorkExperience {
@@ -46,13 +47,13 @@ export interface Template {
   id: string;
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl: string; // Kept for potential future use or different display modes
   dataAiHint: string;
-  component?: React.FC<ResumeTemplateProps> | React.LazyExoticComponent<React.FC<ResumeTemplateProps>>;
+  component: React.FC<ResumeTemplateProps> | React.LazyExoticComponent<React.FC<ResumeTemplateProps>>;
 }
 
 export const initialResumeData: ResumeData = {
-  personalInfo: { name: 'Alex Johnson', email: 'alex.johnson@example.com', phone: '(555) 123-4567', address: '123 Innovation Drive, Tech City, TX 75001', linkedin: 'linkedin.com/in/alexjohnson', portfolio: 'alexj.dev' },
+  personalInfo: { name: 'Alex Johnson', jobTitle: 'Senior Software Engineer', email: 'alex.johnson@example.com', phone: '(555) 123-4567', address: '123 Innovation Drive, Tech City, TX 75001', linkedin: 'linkedin.com/in/alexjohnson', portfolio: 'alexj.dev' },
   summary: 'Dynamic and results-oriented software engineer with 5+ years of experience in developing and scaling web applications. Proficient in JavaScript, React, and Node.js, with a passion for creating intuitive user experiences and solving complex problems. Seeking to leverage strong technical skills and collaborative mindset to contribute to innovative projects.',
   experience: [
     { id: 'exp1', jobTitle: 'Senior Software Engineer', company: 'Innovatech Solutions', location: 'Tech City, TX', startDate: '06/2021', endDate: 'Present', responsibilities: 'Led a team of 5 engineers in developing a new SaaS platform, resulting in a 30% increase in user engagement.\nArchitected and implemented a microservices-based backend using Node.js and Express.\nMentored junior developers and conducted code reviews to ensure high-quality standards.' },
@@ -78,7 +79,7 @@ export const sampleTemplates: Template[] = [
     id: 'minimalist-architect',
     name: 'Minimalist Architect',
     description: 'Geometric precision, ample white space. For architects, engineers, or technical roles valuing clarity.',
-    imageUrl: 'https://placehold.co/300x400.png',
+    imageUrl: 'https://placehold.co/300x400.png', // imageUrl remains, could be used for other contexts
     dataAiHint: 'resume minimalist modern',
     component: MinimalistArchitectTemplateLazy,
   },
@@ -121,109 +122,9 @@ export const sampleTemplates: Template[] = [
     imageUrl: 'https://placehold.co/300x400.png',
     dataAiHint: 'resume monochrome minimalist',
     component: MonochromeFocusTemplateLazy,
-  },
-  {
-    id: 'dynamic-grid-portfolio',
-    name: 'Dynamic Grid Portfolio',
-    description: 'Visually engaging grid, perfect for showcasing project thumbnails. Suits designers, photographers, and visual artists.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume portfolio grid'
-    // No component yet, will fallback to generic
-  },
-  {
-    id: 'infographic-data-viz',
-    name: 'Infographic Data-Viz',
-    description: 'Uses charts and icons to represent skills and achievements. Great for data analysts, consultants, and project managers.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume infographic data'
-    // No component yet
-  },
-  {
-    id: 'eco-friendly-natural',
-    name: 'Eco-Friendly Natural',
-    description: 'Earthy tones, organic feel. For roles in sustainability, environmental science, or wellness.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume natural eco'
-    // No component yet
-  },
-  {
-    id: 'corporate-suite-modern',
-    name: 'Corporate Suite Modern',
-    description: 'Professionalism with a contemporary edge, clear hierarchy. Suitable for executives, finance, and corporate roles.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume corporate professional'
-    // No component yet
-  },
-  {
-    id: 'retro-futuristic-coder',
-    name: 'Retro-Futuristic Coder',
-    description: '8-bit inspired elements, nostalgic yet forward-looking. For game developers, creative coders, or unique tech roles.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume retro gaming'
-    // No component yet
-  },
-  {
-    id: 'global-connector-map',
-    name: 'Global Connector (Map)',
-    description: 'Subtle world map background, highlighting international experience. For international relations, logistics, or travel-related roles.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume map global'
-    // No component yet
-  },
-  {
-    id: 'blueprint-architectural',
-    name: 'Blueprint Architectural',
-    description: 'Styled like a technical blueprint. Ideal for architects, engineers, and technical designers.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume blueprint technical'
-    // No component yet
-  },
-  {
-    id: 'editorial-magazine-layout',
-    name: 'Editorial Magazine Layout',
-    description: 'Clean, high-end magazine style. Great for marketing, communications, and journalism professionals.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume magazine editorial'
-    // No component yet
-  },
-  {
-    id: 'quantum-byte',
-    name: 'Quantum Byte',
-    description: 'Futuristic, circuit-board aesthetics, glowing neon accents. For AI researchers, quantum computing, or advanced tech.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume futuristic tech'
-    // No component yet
-  },
-  {
-    id: 'zenith-minimal',
-    name: 'Zenith Minimal',
-    description: 'Extreme minimalism, single accent color, focus on pure typography. For high-level consultants or thought leaders.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume minimalist typography'
-    // No component yet
-  },
-  {
-    id: 'aurora-splash',
-    name: 'Aurora Splash',
-    description: 'Holographic gradients, fluid shapes, ethereal feel. For digital artists, AR/VR developers, or innovative brand strategists.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume holographic gradient'
-    // No component yet
-  },
-  {
-    id: 'nomad-cartographer',
-    name: 'Nomad Cartographer',
-    description: 'Vintage map elements, passport stamp motifs, adventure-inspired. For travel writers, remote work specialists, or global project managers.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume travel map'
-    // No component yet
-  },
-  {
-    id: 'origami-fold',
-    name: 'Origami Fold',
-    description: 'Geometric folds, paper texture effects, clean and structured. For product designers, UI architects, or meticulous organizers.',
-    imageUrl: 'https://placehold.co/300x400.png',
-    dataAiHint: 'resume geometric paper'
-    // No component yet
   }
+  // Templates without a 'component' property are effectively removed by not being listed here.
 ];
+
+// Ensure all template components are 'use client' if they use hooks or interactivity.
+// This is handled within each template file itself.
