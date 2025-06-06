@@ -69,7 +69,6 @@ export default function ResumeFlowPage() {
   if (!isClient) {
     return (
         <div className="flex flex-col min-h-screen bg-background">
-            {/* Header might not be needed here or simplified for initial load */}
             <div className="flex-grow container mx-auto p-4 flex flex-col items-center justify-center">
                 <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
                 <p className="text-lg text-muted-foreground">Loading ResumeFlow Editor...</p>
@@ -100,7 +99,7 @@ export default function ResumeFlowPage() {
         <SidebarInset>
           <Header />
           <main className="flex-grow p-6 overflow-auto" id="resume-main-content">
-            <div id="resume-preview-printable-area" className="max-w-4xl mx-auto">
+            <div id="resume-preview-printable-area" className="w-full h-full"> {/* Removed max-w-4xl mx-auto */}
               <Suspense fallback={
                 <div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" /> 
