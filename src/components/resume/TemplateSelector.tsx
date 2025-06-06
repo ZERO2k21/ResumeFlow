@@ -1,7 +1,9 @@
+
 'use client';
 
-import Image from 'next/image';
+import React, { Suspense } from 'react'; // Added React and Suspense
 import type { Template } from '@/types/resume';
+import { initialResumeData } from '@/types/resume'; // Added initialResumeData
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import SectionCard from './SectionCard';
@@ -15,6 +17,10 @@ interface TemplateSelectorProps {
 }
 
 export default function TemplateSelector({ templates, selectedTemplateId, onSelectTemplate }: TemplateSelectorProps) {
+  // Assuming card width is roughly 200-250px. Resume templates are often designed for ~800px width.
+  // Scale factor to fit an 800px wide template into a ~200px preview area. 200/800 = 0.25
+  const previewScale = 0.25;
+
   return (
     <SectionCard title="Select a Template" icon={<LayoutGrid className="h-5 w-5" />}>
       <div className="grid grid-cols-1 gap-4">
@@ -31,15 +37,36 @@ export default function TemplateSelector({ templates, selectedTemplateId, onSele
               <CardTitle className="text-base font-headline">{template.name}</CardTitle>
               <CardDescription className="text-xs">{template.description}</CardDescription>
             </CardHeader>
-            <CardContent className="p-0 aspect-[3/4] relative">
-              <Image 
-                src={template.imageUrl} 
-                alt={template.name} 
-                layout="fill"
-                objectFit="cover" 
-                className="rounded-b-md"
-                data-ai-hint={template.dataAiHint}
-              />
+            <CardContent className="p-0 aspect-[3/4] overflow-hidden bg-background relative border-t border-b border-border/50">
+              {/* This inner div provides a slight border for the preview area */}
+              <div className="absolute inset-0"> 
+                {template.component ? (
+                  <Suspense 
+                    fallback={
+                      <div className="w-full h-full flex items-center justify-center bg-muted/20">
+                        <p className="text-xs text-muted-foreground p-2 text-center">Loading Preview...</p>
+                      </div>
+                    }
+                  >
+                    <div 
+                      className="pointer-events-none transform origin-top-left bg-card" // Use bg-card or bg-white as base
+                      style={{ 
+                        width: `${100 / previewScale}%`, 
+                        height: `${100 / previewScale}%`, 
+                        transform: `scale(${previewScale})`,
+                      }}
+                    >
+                       {React.createElement(template.component, { resumeData: initialResumeData })}
+                    </div>
+                  </Suspense>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-muted/10 p-2">
+                    <p className="text-xs text-muted-foreground text-center">
+                      Live preview for this template is not yet available.
+                    </p>
+                  </div>
+                )}
+              </div>
             </CardContent>
             <CardFooter className="p-2">
               <Button 
