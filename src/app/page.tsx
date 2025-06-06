@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react'; // Added Suspense
 import type { ResumeData, Template } from '@/types/resume';
 import { initialResumeData, sampleTemplates } from '@/types/resume';
 import Header from '@/components/layout/Header';
@@ -12,30 +13,30 @@ import DownloadSection from '@/components/resume/DownloadSection';
 
 export default function ResumeFlowPage() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(sampleTemplates[0]?.id || null);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Ensure crypto.randomUUID() is called only on client-side
     setIsClient(true);
-    // Load from local storage if available
     const savedData = localStorage.getItem('resumeFlowData');
     if (savedData) {
       try {
         setResumeData(JSON.parse(savedData));
       } catch (e) {
         console.error("Failed to parse saved resume data", e);
-        localStorage.removeItem('resumeFlowData'); // Clear corrupted data
+        localStorage.removeItem('resumeFlowData'); 
       }
     }
     const savedTemplate = localStorage.getItem('resumeFlowTemplate');
-    if (savedTemplate) {
+    if (savedTemplate && sampleTemplates.find(t => t.id === savedTemplate)) {
       setSelectedTemplateId(savedTemplate);
+    } else if (sampleTemplates.length > 0) {
+      setSelectedTemplateId(sampleTemplates[0].id); // Default to first template if saved one is invalid or not found
     }
   }, []);
 
   useEffect(() => {
-    if(isClient) { // Save to local storage on data change
+    if(isClient) { 
       localStorage.setItem('resumeFlowData', JSON.stringify(resumeData));
     }
   }, [resumeData, isClient]);
@@ -55,10 +56,9 @@ export default function ResumeFlowPage() {
     setSelectedTemplateId(templateId);
   };
 
-  const selectedTemplate = sampleTemplates.find(t => t.id === selectedTemplateId) || null;
+  const selectedTemplate = sampleTemplates.find(t => t.id === selectedTemplateId) || sampleTemplates[0] || null;
 
   if (!isClient) {
-    // Render a loading state or null during SSR to avoid hydration mismatch due to crypto.randomUUID or localStorage
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
@@ -74,22 +74,19 @@ export default function ResumeFlowPage() {
       <Header />
       <main className="flex-grow container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Column - Form */}
           <div className="lg:col-span-4 space-y-6">
             <ResumeForm resumeData={resumeData} onUpdate={handleUpdateResumeData} />
           </div>
 
-          {/* Middle Column - Preview */}
           <div className="lg:col-span-5 space-y-6">
-            {/* Sticky positioning for preview on larger screens */}
             <div className="lg:sticky lg:top-6">
-              <ResumePreview resumeData={resumeData} selectedTemplate={selectedTemplate} />
+              <Suspense fallback={<div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center"><p>Loading Preview...</p></div>}>
+                <ResumePreview resumeData={resumeData} selectedTemplate={selectedTemplate} />
+              </Suspense>
             </div>
           </div>
 
-          {/* Right Column - Tools */}
           <div className="lg:col-span-3 space-y-6">
-             {/* Sticky positioning for tools on larger screens */}
             <div className="lg:sticky lg:top-6 space-y-6">
               <TemplateSelector 
                 templates={sampleTemplates} 

@@ -1,4 +1,7 @@
 
+import React from 'react'; // Added React import
+import type { MinimalistArchitectTemplate } from '@/components/resume/templates/MinimalistArchitectTemplate';
+
 export interface PersonalInfo {
   name: string;
   email: string;
@@ -41,26 +44,157 @@ export interface Template {
   description: string;
   imageUrl: string;
   dataAiHint: string;
+  component?: React.FC<{ resumeData: ResumeData }>;
 }
 
 export const initialResumeData: ResumeData = {
   personalInfo: { name: '', email: '', phone: '', address: '', linkedin: '', portfolio: '' },
   summary: '',
-  experience: [{ id: crypto.randomUUID(), jobTitle: '', company: '', location: '', startDate: '', endDate: '', responsibilities: '' }],
-  education: [{ id: crypto.randomUUID(), degree: '', institution: '', location: '', graduationDate: '', details: '' }],
+  experience: [{ id: typeof crypto !== 'undefined' ? crypto.randomUUID() : 'exp1', jobTitle: '', company: '', location: '', startDate: '', endDate: '', responsibilities: '' }],
+  education: [{ id: typeof crypto !== 'undefined' ? crypto.randomUUID() : 'edu1', degree: '', institution: '', location: '', graduationDate: '', details: '' }],
   skills: [''],
 };
 
+// Forward declaration for MinimalistArchitectTemplate to resolve circular dependency type issue
+// The actual component is imported and used below.
+// This is a common pattern for type-only imports for components.
+const MinimalistArchitectTemplateType: typeof MinimalistArchitectTemplate = React.lazy(() => import('@/components/resume/templates/MinimalistArchitectTemplate')) as any;
+
+
 export const sampleTemplates: Template[] = [
-  { id: 'avant-garde-impact', name: 'Avant-Garde Impact', description: 'Bold typography, unconventional layout. For creatives.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume artistic' },
-  { id: 'tech-innovator', name: 'Tech Innovator', description: 'Clean lines, modern icons. Ideal for tech roles.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume tech' },
-  { id: 'elegant-storyteller', name: 'Elegant Storyteller', description: 'Sophisticated fonts, spacious design. For writers or marketers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume elegant' },
-  { id: 'dynamic-grid', name: 'Dynamic Grid', description: 'Structured yet visually engaging. Suits project managers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume structured' },
-  { id: 'vibrant-ui-ux', name: 'Vibrant UI/UX', description: 'Color accents, portfolio focus. Perfect for designers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume design' },
-  { id: 'minimalist-architect', name: 'Minimalist Architect', description: 'Geometric precision, ample white space. For architects, engineers, or technical roles valuing clarity.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume minimalist modern' },
-  { id: 'infographic-storyteller', name: 'Infographic Storyteller', description: 'Visually represents skills and achievements. Great for data analysts or consultants.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume infographic data' },
-  { id: 'bold-statement', name: 'Bold Statement', description: 'Strong color blocking and impactful typography. For leaders and go-getters.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume bold colorful' },
-  { id: 'creative-flow', name: 'Creative Flow', description: 'Organic shapes and an artistic touch. For visual artists and illustrators.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume creative abstract' },
-  { id: 'corporate-edge', name: 'Corporate Edge', description: 'Professionalism with a modern twist. Suitable for executives and finance.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume corporate professional' },
+  { 
+    id: 'minimalist-architect', 
+    name: 'Minimalist Architect', 
+    description: 'Geometric precision, ample white space. For architects, engineers, or technical roles valuing clarity.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume minimalist modern',
+    component: MinimalistArchitectTemplateType,
+  },
+  { 
+    id: 'avant-garde-impact', 
+    name: 'Avant-Garde Impact', 
+    description: 'Bold typography, unconventional layout. For visionary creatives and artists who dare to be different.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume artistic bold' 
+  },
+  { 
+    id: 'tech-innovator-dark', 
+    name: 'Tech Innovator (Dark Mode)', 
+    description: 'Sleek dark theme with vibrant accents. Ideal for cutting-edge tech roles, cybersecurity, or game developers.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume tech darkmode' 
+  },
+  { 
+    id: 'elegant-storyteller-serif', 
+    name: 'Elegant Storyteller (Serif)', 
+    description: 'Classic serif fonts, sophisticated layout. For writers, editors, academics, or legal professionals.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume elegant serif' 
+  },
+  { 
+    id: 'dynamic-grid-portfolio', 
+    name: 'Dynamic Grid Portfolio', 
+    description: 'Visually engaging grid, perfect for showcasing project thumbnails. Suits designers, photographers, and visual artists.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume portfolio grid' 
+  },
+  { 
+    id: 'vibrant-gradient-ui-ux', 
+    name: 'Vibrant Gradient UI/UX', 
+    description: 'Modern gradients, focus on UI elements. Perfect for UI/UX designers and front-end developers.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume design gradient' 
+  },
+  { 
+    id: 'infographic-data-viz', 
+    name: 'Infographic Data-Viz', 
+    description: 'Uses charts and icons to represent skills and achievements. Great for data analysts, consultants, and project managers.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume infographic data' 
+  },
+  { 
+    id: 'monochrome-focus', 
+    name: 'Monochrome Focus', 
+    description: 'Striking black and white design, emphasizing typography and structure. For minimalists who want impact.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume monochrome minimalist' 
+  },
+  { 
+    id: 'eco-friendly-natural', 
+    name: 'Eco-Friendly Natural', 
+    description: 'Earthy tones, organic feel. For roles in sustainability, environmental science, or wellness.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume natural eco' 
+  },
+  { 
+    id: 'corporate-suite-modern', 
+    name: 'Corporate Suite Modern', 
+    description: 'Professionalism with a contemporary edge, clear hierarchy. Suitable for executives, finance, and corporate roles.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume corporate professional' 
+  },
+  { 
+    id: 'retro-futuristic-coder', 
+    name: 'Retro-Futuristic Coder', 
+    description: '8-bit inspired elements, nostalgic yet forward-looking. For game developers, creative coders, or unique tech roles.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume retro gaming' 
+  },
+  { 
+    id: 'global-connector-map', 
+    name: 'Global Connector (Map)', 
+    description: 'Subtle world map background, highlighting international experience. For international relations, logistics, or travel-related roles.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume map global' 
+  },
+  { 
+    id: 'blueprint-architectural', 
+    name: 'Blueprint Architectural', 
+    description: 'Styled like a technical blueprint. Ideal for architects, engineers, and technical designers.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume blueprint technical' 
+  },
+  { 
+    id: 'editorial-magazine-layout', 
+    name: 'Editorial Magazine Layout', 
+    description: 'Clean, high-end magazine style. Great for marketing, communications, and journalism professionals.', 
+    imageUrl: 'https://placehold.co/300x400.png', 
+    dataAiHint: 'resume magazine editorial' 
+  },
+  {
+    id: 'quantum-byte',
+    name: 'Quantum Byte',
+    description: 'Futuristic, circuit-board aesthetics, glowing neon accents. For AI researchers, quantum computing, or advanced tech.',
+    imageUrl: 'https://placehold.co/300x400.png',
+    dataAiHint: 'resume futuristic tech'
+  },
+  {
+    id: 'zenith-minimal',
+    name: 'Zenith Minimal',
+    description: 'Extreme minimalism, single accent color, focus on pure typography. For high-level consultants or thought leaders.',
+    imageUrl: 'https://placehold.co/300x400.png',
+    dataAiHint: 'resume minimalist typography'
+  },
+  {
+    id: 'aurora-splash',
+    name: 'Aurora Splash',
+    description: 'Holographic gradients, fluid shapes, ethereal feel. For digital artists, AR/VR developers, or innovative brand strategists.',
+    imageUrl: 'https://placehold.co/300x400.png',
+    dataAiHint: 'resume holographic gradient'
+  },
+  {
+    id: 'nomad-cartographer',
+    name: 'Nomad Cartographer',
+    description: 'Vintage map elements, passport stamp motifs, adventure-inspired. For travel writers, remote work specialists, or global project managers.',
+    imageUrl: 'https://placehold.co/300x400.png',
+    dataAiHint: 'resume travel map'
+  },
+  {
+    id: 'origami-fold',
+    name: 'Origami Fold',
+    description: 'Geometric folds, paper texture effects, clean and structured. For product designers, UI architects, or meticulous organizers.',
+    imageUrl: 'https://placehold.co/300x400.png',
+    dataAiHint: 'resume geometric paper'
+  }
 ];
 
