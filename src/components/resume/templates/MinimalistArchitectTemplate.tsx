@@ -1,14 +1,11 @@
 
 'use client';
 
-import type { ResumeData } from '@/types/resume';
+import type { ResumeTemplateProps } from '@/types/resume'; // Use the shared props type
 import { Mail, Phone, Linkedin, Globe, MapPin } from 'lucide-react';
 
-interface MinimalistArchitectTemplateProps {
-  resumeData: ResumeData;
-}
-
-export default function MinimalistArchitectTemplate({ resumeData }: MinimalistArchitectTemplateProps) {
+// Component signature matches React.FC<ResumeTemplateProps>
+export default function MinimalistArchitectTemplate({ resumeData }: ResumeTemplateProps): JSX.Element {
   const { personalInfo, summary, experience, education, skills } = resumeData;
 
   const hasPersonalInfo = personalInfo.name || personalInfo.email || personalInfo.phone || personalInfo.address || personalInfo.linkedin || personalInfo.portfolio;
@@ -127,7 +124,5 @@ export default function MinimalistArchitectTemplate({ resumeData }: MinimalistAr
   );
 }
 
-// Export type for use in src/types/resume.ts to avoid circular dependencies
-// This is a common pattern for components that are also referenced in type definitions.
-export type MinimalistArchitectTemplate = typeof MinimalistArchitectTemplate;
-
+// Removed: export type MinimalistArchitectTemplate = typeof MinimalistArchitectTemplate;
+// This is not needed when using React.lazy with default exports.
