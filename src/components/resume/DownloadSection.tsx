@@ -40,10 +40,17 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
           variant: 'destructive',
         });
       }
-    } else {
+    } else if (format === 'PDF') {
       toast({
-        title: `Download ${format} (Placeholder)`,
-        description: `Actual ${format} download is not yet implemented.`,
+        title: 'PDF Download Not Yet Implemented',
+        description: 'Generating PDF versions of your resume is a planned feature. Please use TXT for now.',
+        variant: 'default',
+      });
+    } else if (format === 'DOCX') {
+      toast({
+        title: 'DOCX Download Not Yet Implemented',
+        description: 'Generating DOCX versions of your resume is a planned feature. Please use TXT for now.',
+        variant: 'default',
       });
     }
   };
@@ -55,9 +62,6 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
         <Button variant="outline" onClick={() => handleDownload('DOCX')} className="w-full">Download as DOCX</Button>
         <Button variant="outline" onClick={() => handleDownload('TXT')} className="w-full">Download as TXT</Button>
       </div>
-       <p className="mt-4 text-xs text-muted-foreground text-center">
-        PDF and DOCX downloads are placeholders. TXT download is functional.
-      </p>
     </SectionCard>
   );
 }
