@@ -14,7 +14,7 @@ export default function MinimalistArchitectTemplate({ resumeData }: ResumeTempla
   const hasSkills = skills.length > 0 && skills.some(skill => skill.trim() !== '');
 
   return (
-    <div className="p-8 bg-white text-gray-800 font-sans text-sm shadow-lg rounded-md border border-gray-200">
+    <div className="h-full p-8 bg-white text-gray-800 font-sans text-sm shadow-lg rounded-md border border-gray-200">
       {/* Header Section */}
       {hasPersonalInfo && (
         <header className="mb-8 text-center border-b border-gray-300 pb-6">
@@ -123,6 +123,3 @@ export default function MinimalistArchitectTemplate({ resumeData }: ResumeTempla
     </div>
   );
 }
-
-// Removed: export type MinimalistArchitectTemplate = typeof MinimalistArchitectTemplate;
-// This is not needed when using React.lazy with default exports.
