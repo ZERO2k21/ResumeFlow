@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, Suspense } from 'react'; // Added Suspense
+import { useState, useEffect, Suspense } from 'react';
 import type { ResumeData, Template } from '@/types/resume';
 import { initialResumeData, sampleTemplates } from '@/types/resume';
 import Header from '@/components/layout/Header';
@@ -94,7 +94,7 @@ export default function ResumeFlowPage() {
                 onSelectTemplate={handleSelectTemplate} 
               />
               <AISuggestionsPanel resumeData={resumeData} />
-              <DownloadSection />
+              <DownloadSection resumeData={resumeData} />
             </div>
           </div>
         </div>

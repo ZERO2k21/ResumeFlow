@@ -1,8 +1,10 @@
+
 'use client';
 
 import { useState } from 'react';
 import type { ResumeData } from '@/types/resume';
 import { suggestImprovements, type SuggestImprovementsOutput } from '@/ai/flows/suggest-improvements';
+import { formatResumeDataForAI } from '@/lib/resume-utils';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -14,35 +16,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 interface AISuggestionsPanelProps {
   resumeData: ResumeData;
 }
-
-function formatResumeDataForAI(data: ResumeData): string {
-  let content = `Name: ${data.personalInfo.name}\nEmail: ${data.personalInfo.email}\nPhone: ${data.personalInfo.phone}\nAddress: ${data.personalInfo.address}\n`;
-  if (data.personalInfo.linkedin) content += `LinkedIn: ${data.personalInfo.linkedin}\n`;
-  if (data.personalInfo.portfolio) content += `Portfolio: ${data.personalInfo.portfolio}\n`;
-
-  content += `\nSummary:\n${data.summary}\n`;
-
-  content += "\nExperience:\n";
-  data.experience.forEach(exp => {
-    if(exp.jobTitle) {
-      content += `- ${exp.jobTitle} at ${exp.company}, ${exp.location} (${exp.startDate} - ${exp.endDate})\n  Responsibilities:\n${exp.responsibilities.split('\n').map(r => `    - ${r}`).join('\n')}\n`;
-    }
-  });
-
-  content += "\nEducation:\n";
-  data.education.forEach(edu => {
-    if(edu.degree) {
-      content += `- ${edu.degree} from ${edu.institution}, ${edu.location} (Graduated: ${edu.graduationDate})\n`;
-      if (edu.details) content += `  Details: ${edu.details}\n`;
-    }
-  });
-
-  content += "\nSkills:\n";
-  content += data.skills.filter(s => s.trim() !== '').join(', ') + "\n";
-
-  return content;
-}
-
 
 export default function AISuggestionsPanel({ resumeData }: AISuggestionsPanelProps) {
   const [jobDescription, setJobDescription] = useState('');
