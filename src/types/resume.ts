@@ -52,9 +52,15 @@ export const initialResumeData: ResumeData = {
 };
 
 export const sampleTemplates: Template[] = [
-  { id: 'avant-garde', name: 'Avant-Garde Impact', description: 'Bold typography, unconventional layout. For creatives.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume artistic' },
-  { id: 'tech-savvy', name: 'Tech Innovator', description: 'Clean lines, modern icons. Ideal for tech roles.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume tech' },
-  { id: 'elegant-script', name: 'Elegant Storyteller', description: 'Sophisticated fonts, spacious design. For writers or marketers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume elegant' },
+  { id: 'avant-garde-impact', name: 'Avant-Garde Impact', description: 'Bold typography, unconventional layout. For creatives.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume artistic' },
+  { id: 'tech-innovator', name: 'Tech Innovator', description: 'Clean lines, modern icons. Ideal for tech roles.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume tech' },
+  { id: 'elegant-storyteller', name: 'Elegant Storyteller', description: 'Sophisticated fonts, spacious design. For writers or marketers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume elegant' },
   { id: 'dynamic-grid', name: 'Dynamic Grid', description: 'Structured yet visually engaging. Suits project managers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume structured' },
-  { id: 'vibrant-ui', name: 'Vibrant UI/UX', description: 'Color accents, portfolio focus. Perfect for designers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume design' },
+  { id: 'vibrant-ui-ux', name: 'Vibrant UI/UX', description: 'Color accents, portfolio focus. Perfect for designers.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume design' },
+  { id: 'minimalist-architect', name: 'Minimalist Architect', description: 'Geometric precision, ample white space. For architects, engineers, or technical roles valuing clarity.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume minimalist modern' },
+  { id: 'infographic-storyteller', name: 'Infographic Storyteller', description: 'Visually represents skills and achievements. Great for data analysts or consultants.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume infographic data' },
+  { id: 'bold-statement', name: 'Bold Statement', description: 'Strong color blocking and impactful typography. For leaders and go-getters.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume bold colorful' },
+  { id: 'creative-flow', name: 'Creative Flow', description: 'Organic shapes and an artistic touch. For visual artists and illustrators.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume creative abstract' },
+  { id: 'corporate-edge', name: 'Corporate Edge', description: 'Professionalism with a modern twist. Suitable for executives and finance.', imageUrl: 'https://placehold.co/300x400.png', dataAiHint: 'resume corporate professional' },
 ];
+
