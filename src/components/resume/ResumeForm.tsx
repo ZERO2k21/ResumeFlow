@@ -132,7 +132,7 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
           Work Experience
         </div>
         {resumeData.experience.map((exp, index) => (
-          <div key={exp.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-background shadow-sm"> {/* Use bg-background or bg-input for consistency */}
+          <div key={exp.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-card shadow-sm">
             <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive hover:text-destructive" onClick={() => removeFromArray('experience', index)}>
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -160,7 +160,7 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
           Education
         </div>
         {resumeData.education.map((edu, index) => (
-          <div key={edu.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-background shadow-sm"> {/* Use bg-background or bg-input for consistency */}
+          <div key={edu.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-card shadow-sm">
             <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive hover:text-destructive" onClick={() => removeFromArray('education', index)}>
               <Trash2 className="h-4 w-4" />
             </Button>
