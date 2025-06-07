@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import SectionCard from './SectionCard';
+import { Separator } from '@/components/ui/separator';
 import { User, AlignLeft, Briefcase, GraduationCap, Lightbulb, PlusCircle, Trash2 } from 'lucide-react';
 
 interface ResumeFormProps {
@@ -25,10 +25,6 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
     } else if (section === 'summary') {
        onUpdate({ ...resumeData, summary: value });
     }
-    // For other top-level string properties if any in future
-    // else {
-    //   onUpdate({ ...resumeData, [section]: value });
-    // }
   };
 
   const handleArrayChange = <T extends WorkExperience | EducationEntry>(
@@ -38,7 +34,6 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
     value: string
   ) => {
     const updatedArray = [...resumeData[section]];
-    // Create a new object for the item to ensure re-render
     const newItem = { ...updatedArray[index], [field]: value } as T;
     updatedArray[index] = newItem;
     onUpdate({ ...resumeData, [section]: updatedArray });
@@ -74,8 +69,13 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
 
   return (
     <div className="space-y-6">
-      <SectionCard title="Personal Information" icon={<User className="h-5 w-5" />}>
-        <div className="space-y-4">
+      {/* Personal Information Section */}
+      <div className="space-y-4">
+        <div className="flex items-center text-lg font-medium text-primary mb-3 pt-1">
+          <User className="mr-2 h-5 w-5" />
+          Personal Information
+        </div>
+        <div className="space-y-3">
           <div>
             <Label htmlFor="name">Full Name</Label>
             <Input id="name" value={resumeData.personalInfo.name} onChange={(e) => handleInputChange('personalInfo', 'name', e.target.value)} />
@@ -105,20 +105,34 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
             <Input id="portfolio" value={resumeData.personalInfo.portfolio || ''} onChange={(e) => handleInputChange('personalInfo', 'portfolio', e.target.value)} />
           </div>
         </div>
-      </SectionCard>
+      </div>
 
-      <SectionCard title="Summary / Objective" icon={<AlignLeft className="h-5 w-5" />}>
+      <Separator className="my-6" />
+
+      {/* Summary / Objective Section */}
+      <div className="space-y-4">
+        <div className="flex items-center text-lg font-medium text-primary mb-3">
+          <AlignLeft className="mr-2 h-5 w-5" />
+          Summary / Objective
+        </div>
         <Textarea 
           placeholder="Write a brief summary or career objective..." 
           value={resumeData.summary}
           onChange={(e) => handleInputChange('summary', 'summary', e.target.value)}
           rows={8}
         />
-      </SectionCard>
+      </div>
 
-      <SectionCard title="Work Experience" icon={<Briefcase className="h-5 w-5" />}>
+      <Separator className="my-6" />
+
+      {/* Work Experience Section */}
+      <div className="space-y-4">
+        <div className="flex items-center text-lg font-medium text-primary mb-3">
+          <Briefcase className="mr-2 h-5 w-5" />
+          Work Experience
+        </div>
         {resumeData.experience.map((exp, index) => (
-          <div key={exp.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-card">
+          <div key={exp.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-background shadow-sm"> {/* Use bg-background or bg-input for consistency */}
             <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive hover:text-destructive" onClick={() => removeFromArray('experience', index)}>
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -135,11 +149,18 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
         <Button variant="outline" onClick={() => addToArray('experience')} className="mt-2 w-full">
           <PlusCircle className="mr-2 h-4 w-4" /> Add Experience
         </Button>
-      </SectionCard>
+      </div>
 
-      <SectionCard title="Education" icon={<GraduationCap className="h-5 w-5" />}>
+      <Separator className="my-6" />
+
+      {/* Education Section */}
+      <div className="space-y-4">
+        <div className="flex items-center text-lg font-medium text-primary mb-3">
+          <GraduationCap className="mr-2 h-5 w-5" />
+          Education
+        </div>
         {resumeData.education.map((edu, index) => (
-          <div key={edu.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-card">
+          <div key={edu.id} className="space-y-3 p-4 border rounded-md mb-4 relative bg-background shadow-sm"> {/* Use bg-background or bg-input for consistency */}
             <Button variant="ghost" size="icon" className="absolute top-2 right-2 text-destructive hover:text-destructive" onClick={() => removeFromArray('education', index)}>
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -153,9 +174,16 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
         <Button variant="outline" onClick={() => addToArray('education')} className="mt-2 w-full">
           <PlusCircle className="mr-2 h-4 w-4" /> Add Education
         </Button>
-      </SectionCard>
+      </div>
 
-      <SectionCard title="Skills" icon={<Lightbulb className="h-5 w-5" />}>
+      <Separator className="my-6" />
+
+      {/* Skills Section */}
+      <div className="space-y-4">
+        <div className="flex items-center text-lg font-medium text-primary mb-3">
+          <Lightbulb className="mr-2 h-5 w-5" />
+          Skills
+        </div>
         <div className="space-y-2">
         {resumeData.skills.map((skill, index) => (
           <div key={index} className="flex items-center gap-2">
@@ -173,7 +201,7 @@ export default function ResumeForm({ resumeData, onUpdate }: ResumeFormProps) {
          <Button variant="outline" onClick={addSkill} className="mt-2 w-full">
           <PlusCircle className="mr-2 h-4 w-4" /> Add Skill
         </Button>
-      </SectionCard>
+      </div>
     </div>
   );
 }
