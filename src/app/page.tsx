@@ -12,6 +12,12 @@ import AISuggestionsPanel from '@/components/resume/AISuggestionsPanel';
 import DownloadSection from '@/components/resume/DownloadSection';
 import { Loader2 } from 'lucide-react';
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
   SidebarProvider,
   Sidebar,
   SidebarHeader,
@@ -84,22 +90,47 @@ export default function ResumeFlowPage() {
           <SidebarHeader className="p-4 border-b">
             <h2 className="text-xl font-semibold font-headline text-primary">Controls</h2>
           </SidebarHeader>
-          <SidebarContent className="p-4 space-y-6">
-            <ResumeForm resumeData={resumeData} onUpdate={handleUpdateResumeData} />
-            <TemplateSelector
-              templates={sampleTemplates}
-              selectedTemplateId={selectedTemplateId}
-              onSelectTemplate={handleSelectTemplate}
-            />
-            <AISuggestionsPanel resumeData={resumeData} />
-            <DownloadSection resumeData={resumeData} />
+          <SidebarContent className="p-4">
+            <Accordion type="multiple" defaultValue={['resume-content']} className="w-full">
+              <AccordionItem value="resume-content">
+                <AccordionTrigger className="text-base font-medium hover:no-underline">Resume Content</AccordionTrigger>
+                <AccordionContent className="pt-2">
+                  <ResumeForm resumeData={resumeData} onUpdate={handleUpdateResumeData} />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="templates">
+                <AccordionTrigger className="text-base font-medium hover:no-underline">Templates & Appearance</AccordionTrigger>
+                <AccordionContent className="pt-2">
+                  <TemplateSelector
+                    templates={sampleTemplates}
+                    selectedTemplateId={selectedTemplateId}
+                    onSelectTemplate={handleSelectTemplate}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="ai-assistant">
+                <AccordionTrigger className="text-base font-medium hover:no-underline">AI Assistant</AccordionTrigger>
+                <AccordionContent className="pt-2">
+                  <AISuggestionsPanel resumeData={resumeData} />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="export">
+                <AccordionTrigger className="text-base font-medium hover:no-underline">Download & Export</AccordionTrigger>
+                <AccordionContent className="pt-2">
+                  <DownloadSection resumeData={resumeData} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </SidebarContent>
         </Sidebar>
 
         <SidebarInset>
           <Header />
           <main className="flex-grow p-6 overflow-auto" id="resume-main-content">
-            <div id="resume-preview-printable-area" className="w-full h-full"> {/* Removed max-w-4xl mx-auto */}
+            <div id="resume-preview-printable-area" className="w-full h-full">
               <Suspense fallback={
                 <div className="bg-muted/30 p-6 rounded-lg min-h-[600px] grid place-items-center">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" /> 
