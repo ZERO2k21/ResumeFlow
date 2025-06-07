@@ -18,7 +18,7 @@ export default function VibrantGradientUIUXTemplate({ resumeData }: ResumeTempla
       {hasPersonalInfo && (
         <header className="mb-10 text-center relative">
           {personalInfo.name && <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mb-2">{personalInfo.name}</h1>}
-          <p className="text-xl text-purple-300 font-medium mb-4">{personalInfo.jobTitle || 'Creative UI/UX Professional'}</p>
+          {personalInfo.jobTitle && <p className="text-xl text-purple-300 font-medium mb-4">{personalInfo.jobTitle}</p>}
           <div className="flex justify-center items-center flex-wrap gap-x-5 gap-y-2 text-sm text-purple-200">
             {personalInfo.email && (
               <a href={`mailto:${personalInfo.email}`} className="flex items-center hover:text-pink-300 transition-colors">
@@ -58,7 +58,7 @@ export default function VibrantGradientUIUXTemplate({ resumeData }: ResumeTempla
             <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mb-3 flex items-center">
               <Users size={22} className="mr-3 text-pink-400" /> Design Philosophy
             </h2>
-            <p className="text-slate-300 leading-relaxed">{summary}</p>
+            <p className="text-slate-300 leading-relaxed whitespace-pre-line">{summary}</p>
           </section>
         )}
 
@@ -76,7 +76,7 @@ export default function VibrantGradientUIUXTemplate({ resumeData }: ResumeTempla
                   <p className="text-slate-500">{exp.startDate} - {exp.endDate}</p>
                 </div>
                 {exp.responsibilities && (
-                  <ul className="list-none mt-2 space-y-1 text-sm text-slate-300">
+                  <ul className="list-none mt-2 space-y-1 text-sm text-slate-300 whitespace-pre-line">
                     {exp.responsibilities.split('\n').map((line, i) => line.trim() && <li key={i} className="flex items-start"><Code size={14} className="mr-2 mt-1 text-pink-400 shrink-0" /><span>{line.trim()}</span></li>)}
                   </ul>
                 )}
@@ -97,7 +97,7 @@ export default function VibrantGradientUIUXTemplate({ resumeData }: ResumeTempla
                   <h3 className="text-lg font-semibold text-purple-300">{edu.degree}</h3>
                   <p className="text-slate-400">{edu.institution} - {edu.location}</p>
                   <p className="text-xs text-slate-500 mb-1">{edu.graduationDate}</p>
-                  {edu.details && <p className="text-xs text-slate-400 italic">{edu.details}</p>}
+                  {edu.details && <p className="text-xs text-slate-400 italic whitespace-pre-line">{edu.details}</p>}
                 </div>
               ))}
             </section>

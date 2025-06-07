@@ -18,7 +18,7 @@ export default function MonochromeFocusTemplate({ resumeData }: ResumeTemplatePr
       {hasPersonalInfo && (
         <header className="mb-12 text-left relative">
           {personalInfo.name && <h1 className="text-6xl font-extrabold tracking-tighter mb-1">{personalInfo.name.toUpperCase()}</h1>}
-          <p className="text-xl font-light tracking-wider text-gray-600 mb-5">{personalInfo.jobTitle || 'Strategic Professional'}</p>
+          {personalInfo.jobTitle && <p className="text-xl font-light tracking-wider text-gray-600 mb-5">{personalInfo.jobTitle}</p>}
           <div className="h-px bg-black w-1/4 mb-5"></div>
           <div className="space-y-1 text-xs text-gray-700">
             {personalInfo.email && (
@@ -58,7 +58,7 @@ export default function MonochromeFocusTemplate({ resumeData }: ResumeTemplatePr
             {summary && (
               <section>
                 <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-3">Profile</h2>
-                <p className="text-sm leading-relaxed text-justify">{summary}</p>
+                <p className="text-sm leading-relaxed text-justify whitespace-pre-line">{summary}</p>
               </section>
             )}
             {hasSkills && (
@@ -90,7 +90,7 @@ export default function MonochromeFocusTemplate({ resumeData }: ResumeTemplatePr
                     <p className="text-xs text-gray-500">{exp.startDate} — {exp.endDate}</p>
                   </div>
                   {exp.responsibilities && (
-                    <ul className="list-none mt-1.5 space-y-1 text-sm text-gray-700">
+                    <ul className="list-none mt-1.5 space-y-1 text-sm text-gray-700 whitespace-pre-line">
                       {exp.responsibilities.split('\n').map((line, i) => line.trim() && <li key={i} className="pl-4 relative before:content-['–'] before:absolute before:left-0 before:text-gray-500">{line.trim()}</li>)}
                     </ul>
                   )}
@@ -107,7 +107,7 @@ export default function MonochromeFocusTemplate({ resumeData }: ResumeTemplatePr
                   <h3 className="text-lg font-bold">{edu.degree.toUpperCase()}</h3>
                   <p className="text-sm font-medium text-gray-800">{edu.institution} / {edu.location}</p>
                   <p className="text-xs text-gray-500 mb-1">{edu.graduationDate}</p>
-                  {edu.details && <p className="text-xs text-gray-600 italic">{edu.details}</p>}
+                  {edu.details && <p className="text-xs text-gray-600 italic whitespace-pre-line">{edu.details}</p>}
                 </div>
               ))}
             </section>

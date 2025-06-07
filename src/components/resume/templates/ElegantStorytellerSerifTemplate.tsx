@@ -19,7 +19,7 @@ export default function ElegantStorytellerSerifTemplate({ resumeData }: ResumeTe
         <header className="mb-10 text-center relative">
           <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-stone-400 to-transparent"></div>
           {personalInfo.name && <h1 className="text-5xl font-bold text-stone-700 mt-6 mb-2 tracking-wide">{personalInfo.name}</h1>}
-          <p className="text-lg text-stone-600 italic mb-4">{personalInfo.jobTitle || 'Dedicated Professional'}</p>
+          {personalInfo.jobTitle && <p className="text-lg text-stone-600 italic mb-4">{personalInfo.jobTitle}</p>}
           <div className="flex justify-center items-center flex-wrap gap-x-5 gap-y-2 text-sm text-stone-600">
             {personalInfo.email && (
               <a href={`mailto:${personalInfo.email}`} className="flex items-center hover:text-stone-900 transition-colors">
