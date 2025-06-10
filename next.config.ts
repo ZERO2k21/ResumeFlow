@@ -7,8 +7,7 @@ const nextConfig: NextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  images: {
+  },  images: {
     remotePatterns: [
       {
         protocol: 'https',
@@ -17,7 +16,9 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },  // Optimize for Cloudflare Pages
+    unoptimized: true, // Required for static export
+  },
+  // Optimize for Cloudflare Pages
   compress: true,
   poweredByHeader: false,
   // Static export configuration for Cloudflare Pages

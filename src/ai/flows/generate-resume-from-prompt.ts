@@ -1,6 +1,6 @@
 // This file is machine-generated - edit at your own risk.
 
-'use server';
+// 'use server'; // Commented out for static export compatibility
 
 /**
  * @fileOverview Generates a resume from a text prompt describing the desired job.
@@ -10,9 +10,11 @@
  * - GenerateResumeFromPromptOutput - The return type for the generateResumeFromPrompt function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+// import {ai} from '@/ai/genkit';
+// import {z} from 'genkit';
 
+// Commented out for static export compatibility
+/*
 const GenerateResumeFromPromptInputSchema = z.object({
   jobDescription: z
     .string()
@@ -47,3 +49,20 @@ const generateResumeFromPromptFlow = ai.defineFlow(
     return output!;
   }
 );
+*/
+
+// Static types for compatibility
+export interface GenerateResumeFromPromptInput {
+  jobDescription: string;
+}
+
+export interface GenerateResumeFromPromptOutput {
+  resumeDraft: string;
+}
+
+// Static function (not currently used in the app)
+export async function generateResumeFromPrompt(input: GenerateResumeFromPromptInput): Promise<GenerateResumeFromPromptOutput> {
+  return {
+    resumeDraft: "Resume generation feature is not available in static mode."
+  };
+}

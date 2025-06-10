@@ -4,8 +4,8 @@
   "private": true,  "scripts": {
     "dev": "next dev --turbopack -p 9002",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
-    "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
-    "build": "next build",
+    "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",    "build": "next build",
+    "build:static": "powershell -ExecutionPolicy Bypass -File scripts/build-static.ps1",
     "build:cloudflare": "next build",
     "start": "next start",
     "lint": "next lint",
