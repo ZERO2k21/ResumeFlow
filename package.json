@@ -1,12 +1,12 @@
 {
   "name": "nextn",
   "version": "0.1.0",
-  "private": true,
-  "scripts": {
+  "private": true,  "scripts": {
     "dev": "next dev --turbopack -p 9002",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
     "build": "next build",
+    "build:cloudflare": "next build && node -e \"const fs = require('fs'); const path = require('path'); if (fs.existsSync('.next/cache')) fs.rmSync('.next/cache', {recursive: true}); if (fs.existsSync('.next/trace')) fs.rmSync('.next/trace', {recursive: true}); console.log('Cache cleanup complete');\"",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"

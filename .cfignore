@@ -1,0 +1,16 @@
+# Cloudflare Pages ignore file
+# Exclude cache files and build artifacts that aren't needed for deployment
+
+.next/cache/
+.next/trace
+.git/
+node_modules/
+.env*
+.vscode/
+.idx/
+docs/
+scripts/
+src/
+*.log
+*.tsbuildinfo
+README.md
