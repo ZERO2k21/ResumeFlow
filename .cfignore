@@ -1,9 +1,8 @@
 # Cloudflare Pages ignore file
 # Exclude cache files and build artifacts that aren't needed for deployment
+# Static export goes to 'out/' directory, ignore everything else
 
-.next/cache/
-.next/trace
-.git/
+.next/
 node_modules/
 .env*
 .vscode/
@@ -14,3 +13,4 @@ src/
 *.log
 *.tsbuildinfo
 README.md
+.git/

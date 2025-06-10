@@ -17,14 +17,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  // Optimize for Cloudflare Pages
+  },  // Optimize for Cloudflare Pages
   compress: true,
   poweredByHeader: false,
-  // Uncomment the following lines if you want to export as static files
-  // output: 'export',
-  // trailingSlash: true,
-  // distDir: 'out',
+  // Static export configuration for Cloudflare Pages
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
 };
 
 export default nextConfig;
