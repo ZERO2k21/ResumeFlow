@@ -81,10 +81,10 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
         description: 'Please wait while we generate your PDF...',
       });
       
-      // Get the resume preview element
-      element = document.getElementById('resume-preview-printable-area');
+      // Get the resume content printable area element
+      element = document.getElementById('resume-content-printable-area');
       if (!element) {
-        throw new Error('Resume preview element not found');
+        throw new Error('Resume content printable area element not found');
       }
       
       // Prepare the element for PDF export

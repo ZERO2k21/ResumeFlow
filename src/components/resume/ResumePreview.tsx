@@ -25,6 +25,7 @@ export default function ResumePreview({ resumeData, selectedTemplate }: ResumePr
 
   return (
     <SectionCard title="Live Preview" icon={<Eye className="h-5 w-5" />} className="sticky top-6">
+      <div id="resume-content-printable-area">
       {specificTemplateContent ? (
         // If a specific template component is rendered, it handles its own styling
         specificTemplateContent
@@ -99,6 +100,7 @@ export default function ResumePreview({ resumeData, selectedTemplate }: ResumePr
           )}
         </div>
       )}
+      </div>
     </SectionCard>
   );
 }

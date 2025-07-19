@@ -155,7 +155,7 @@
 }
 
 /* Fix for potential overflow issues in PDF */
-#resume-preview-printable-area.pdf-export {
+#resume-content-printable-area.pdf-export {
   overflow: visible !important;
   height: auto !important;
   min-height: auto !important;
@@ -163,19 +163,31 @@
 }
 
 /* Ensure all content is visible in PDF */
-#resume-preview-printable-area.pdf-export * {
+#resume-content-printable-area.pdf-export * {
   visibility: visible !important;
   opacity: 1 !important;
 }
 
 /* Ensure proper page breaks in PDF */
-#resume-preview-printable-area.pdf-export .page-break {
+#resume-content-printable-area.pdf-export .page-break {
   page-break-after: always !important;
   break-after: page !important;
 }
 
-/* Hide the Live Preview header when exporting to PDF */
-#resume-preview-printable-area.pdf-export [class*="CardHeader"],
-#resume-preview-printable-area.pdf-export header {
-  display: none !important;
+/* Keep the old selectors for backward compatibility */
+#resume-preview-printable-area.pdf-export {
+  overflow: visible !important;
+  height: auto !important;
+  min-height: auto !important;
+  page-break-inside: avoid !important;
+}
+
+#resume-preview-printable-area.pdf-export * {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+#resume-preview-printable-area.pdf-export .page-break {
+  page-break-after: always !important;
+  break-after: page !important;
 }
