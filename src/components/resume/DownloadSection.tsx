@@ -1,23 +1,17 @@
-
 'use client';
 
 import type { ResumeData } from '@/types/resume';
 import { prepareElementForPDF, cleanupElementAfterPDF, getPDFExportOptions, PdfExportOptions } from '@/lib/pdf-export';
 import { Button } from '@/components/ui/button';
 import SectionCard from './SectionCard';
-import { Download, FileDown, Settings } from 'lucide-react';
+import { Download, FileDown, Settings, Maximize } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useEffect, useState } from 'react';
-// We'll dynamically import html2pdf to avoid SSR issues
-import dynamic from 'next/dynamic';
 import { PDFExportDialog } from './PDFExportDialog';
 
 interface DownloadSectionProps {
   resumeData: ResumeData;
 }
-
-// Dynamically import html2pdf with no SSR
-const html2pdfPromise = () => import('html2pdf.js').then(module => module.default || module);
 
 export default function DownloadSection({ resumeData }: DownloadSectionProps) {
   const { toast } = useToast();
@@ -30,52 +24,102 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
     setIsClient(true);
   }, []);
 
-
-  
   const handleExportPDF = async (options?: PdfExportOptions) => {
     if (!isClient || isExporting) return;
-    
     let element: HTMLElement | null = null;
     
     try {
       setIsExporting(true);
-      
       toast({
         title: 'Preparing PDF Export',
-        description: 'Please wait while we generate your PDF...',
+        description: 'Generating perfectly fitted A4 PDF...',
       });
-      
-      // Get the resume content printable area element
+
       element = document.getElementById('resume-content-printable-area');
       if (!element) {
         throw new Error('Resume content printable area element not found');
       }
-      
-      // Prepare the element for PDF export
+
+      // Prepare element for PDF export
       prepareElementForPDF(element);
+
+      // Use the new single-page export function for perfect A4 fit
+      const { exportResumeAsSinglePagePDF } = await import('@/lib/pdf-export');
       
-      // Load html2pdf dynamically
-      const html2pdf = await html2pdfPromise();
+      // Generate filename from resume data
+      const name = 'resume'; // Fallback to 'resume' since we don't know the exact ResumeData structure
+      const defaultFilename = `${name}_${Date.now()}.pdf`;
       
-      // Get optimized PDF export options
-      const opt = getPDFExportOptions(resumeData, options);
-      
-      // Generate PDF
-      await html2pdf().from(element).set(opt).save();
-      
+      await exportResumeAsSinglePagePDF(
+        element, 
+        options?.filename || defaultFilename, 
+        options?.quality ?? 0.95
+      );
+
       toast({
         title: 'PDF Export Successful',
-        description: 'Your resume has been exported as a PDF file.',
+        description: 'Your resume has been exported as a perfectly fitted A4 PDF.',
       });
+
     } catch (error) {
       console.error('Error exporting PDF:', error);
       toast({
         title: 'PDF Export Failed',
-        description: 'Could not export the resume as PDF. Please try again.',
+        description: error instanceof Error ? error.message : 'Could not export the resume as PDF. Please try again.',
         variant: 'destructive',
       });
     } finally {
-      // Always clean up the element after PDF export, even if there was an error
+      if (element) {
+        cleanupElementAfterPDF(element);
+      }
+      setIsExporting(false);
+    }
+  };
+
+  // Export with margins (alternative option)
+  const handleExportPDFWithMargins = async (options?: PdfExportOptions & { marginMm?: number }) => {
+    if (!isClient || isExporting) return;
+    let element: HTMLElement | null = null;
+    
+    try {
+      setIsExporting(true);
+      toast({
+        title: 'Preparing PDF Export',
+        description: 'Generating stretched PDF with margins...',
+      });
+
+      element = document.getElementById('resume-content-printable-area');
+      if (!element) {
+        throw new Error('Resume content printable area element not found');
+      }
+
+      prepareElementForPDF(element);
+
+      const { exportResumeAsStretchedPDFWithMargins } = await import('@/lib/pdf-export');
+      
+      const name = 'resume'; // Fallback to 'resume' since we don't know the exact ResumeData structure
+      const defaultFilename = `${name}_margins_${Date.now()}.pdf`;
+      
+      await exportResumeAsStretchedPDFWithMargins(
+        element, 
+        options?.filename || defaultFilename, 
+        options?.quality ?? 0.95,
+        options?.marginMm ?? 10
+      );
+
+      toast({
+        title: 'PDF Export Successful',
+        description: 'Your resume has been exported as a stretched PDF with margins.',
+      });
+
+    } catch (error) {
+      console.error('Error exporting PDF with margins:', error);
+      toast({
+        title: 'PDF Export Failed',
+        description: error instanceof Error ? error.message : 'Could not export the resume as PDF. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
       if (element) {
         cleanupElementAfterPDF(element);
       }
@@ -88,14 +132,12 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
     setDialogOpen(true);
   };
 
-
-
   return (
     <>
       <PDFExportDialog 
         open={dialogOpen} 
         onOpenChange={setDialogOpen} 
-        onExport={handleExportPDF} 
+        onExport={handleExportPDF}
         resumeData={resumeData} 
       />
       
@@ -106,6 +148,7 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
               onClick={() => handleExportPDF()} 
               className="flex-1 bg-primary hover:bg-primary/90"
               disabled={isExporting}
+              title="Export as perfectly fitted A4 PDF (stretched to fill entire page)"
             >
               {isExporting ? (
                 <>
@@ -117,7 +160,7 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
                 </>
               ) : (
                 <>
-                  <FileDown className="mr-2 h-4 w-4" /> Export as PDF
+                  <Maximize className="mr-2 h-4 w-4" /> Perfect A4 Fit
                 </>
               )}
             </Button>
@@ -132,6 +175,17 @@ export default function DownloadSection({ resumeData }: DownloadSectionProps) {
             </Button>
           </div>
 
+          {/* Quick export with margins option */}
+          <Button 
+            onClick={() => handleExportPDFWithMargins({ marginMm: 10 })} 
+            variant="outline"
+            className="w-full"
+            disabled={isExporting}
+            title="Export with small margins (10mm) but stretched to fit"
+          >
+            <FileDown className="mr-2 h-4 w-4" /> 
+            Export with Margins
+          </Button>
         </div>
       </SectionCard>
     </>
